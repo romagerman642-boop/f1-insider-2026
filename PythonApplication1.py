@@ -11,10 +11,11 @@ def get_data(url, backup_data):
         return backup_data
 
 @app.route('/')
-def
-next_race_date = "2026-03-01T15:00:00"
+def home():
+    # Дата першої гонки 2026
+    next_race_date = "2026-03-01T15:00:00"
 
-    # Отримуємо розклад гонок
+    # Отримуємо розклад
     race_data = get_data('https://ergast.com/api/f1/2026.json', {})
     races = race_data.get('MRData', {}).get('RaceTable', {}).get('Races', [
         {"raceName": "Bahrain Grand Prix", "date": "2026-03-01", "Circuit": {"circuitName": "Sakhir"}},
@@ -22,7 +23,7 @@ next_race_date = "2026-03-01T15:00:00"
         {"raceName": "Australian Grand Prix", "date": "2026-03-22", "Circuit": {"circuitName": "Albert Park"}}
     ])
 
-    # Отримуємо таблицю пілотів
+    # Отримуємо пілотів
     standings_data = get_data('https://ergast.com/api/f1/2026/driverStandings.json', {})
     try:
         drivers = standings_data['MRData']['StandingsTable']['StandingsLists'][0]['DriverStandings']
