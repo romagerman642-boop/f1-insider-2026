@@ -4,37 +4,41 @@
     <meta charset="UTF-8">
     <title>F1 Insider 2026</title>
     <style>
+        /* КУРСОР ШИНА - ПРАЦЮЄ ВСЮДИ */
+        * { cursor: url('https://cdn-icons-png.flaticon.com/32/1420/1420230.png'), auto !important; }
+
         body { background: #0b0b0b; color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; }
         .container { max-width: 900px; margin: auto; padding: 20px; text-align: center; }
-        h1 { color: #e10600; font-size: 3em; margin-bottom: 10px; text-transform: uppercase; }
+        h1 { color: #e10600; font-size: 3em; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px; }
         
         #timer-wrap { 
             background: linear-gradient(135deg, #e10600 0%, #330000 100%); 
             padding: 30px; border-radius: 20px; margin: 30px 0;
-            box-shadow: 0 10px 30px rgba(225, 6, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(225, 6, 0, 0.4);
+            border: 1px solid rgba(255,255,255,0.1);
         }
-        #timer { font-size: 2.5em; font-weight: bold; letter-spacing: 2px; }
+        #timer { font-size: 2.5em; font-weight: bold; font-family: 'Courier New', monospace; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
         
-        .card { background: #1a1a1a; border-radius: 15px; padding: 25px; margin-bottom: 30px; border-top: 4px solid #e10600; }
-        table { width: 100%; border-collapse: collapse; text-align: left; }
-        th { color: #e10600; text-transform: uppercase; font-size: 0.8em; padding: 15px 10px; border-bottom: 2px solid #333; }
+        .card { background: #1a1a1a; border-radius: 15px; padding: 25px; margin-bottom: 30px; border-top: 4px solid #e10600; text-align: left; }
+        table { width: 100%; border-collapse: collapse; }
+        th { color: #e10600; text-transform: uppercase; font-size: 0.85em; padding: 15px 10px; border-bottom: 2px solid #333; }
         td { padding: 15px 10px; border-bottom: 1px solid #222; }
-        tr:hover { background: #222; }
-        .date { color: #888; font-family: monospace; }
+        tr:hover { background: #222; transition: 0.3s; }
+        .date { color: #888; font-weight: bold; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>F1 INSIDER 2026</h1>
-        <p style="color:#666">ОФІЦІЙНИЙ РОЗКЛАД ТА ЗАЛІК СЕЗОНУ</p>
+        <p style="color:#888; letter-spacing: 1px;">SEASON 2026 • NEW REGULATIONS • EXCLUSIVE DATA</p>
 
         <div id="timer-wrap">
-            <div style="margin-bottom:10px; opacity:0.8">ДО СТАРТУ ГРАН-ПРІ БАХРЕЙНУ:</div>
+            <div style="margin-bottom:10px; font-weight: bold; opacity:0.9">ДО ГРАН-ПРІ БАХРЕЙНУ ЗАЛИШИЛОСЯ:</div>
             <div id="timer">00д 00г 00хв 00с</div>
         </div>
 
         <div class="card">
-            <h2 style="text-align:left; margin-top:0">🏁 Повний календар гонок</h2>
+            <h2 style="margin-top:0">🏁 Календар сезону 2026 (16 етапів)</h2>
             <table>
                 <thead>
                     <tr><th>Гонка</th><th>Траса</th><th>Дата</th></tr>
@@ -57,10 +61,17 @@
         function updateTimer() {
             const now = new Date().getTime();
             const diff = raceDate - now;
+            
+            if (diff <= 0) {
+                document.getElementById("timer").innerHTML = "СЕЗОН ВІДКРИТО!";
+                return;
+            }
+
             const d = Math.floor(diff / 86400000);
             const h = Math.floor((diff % 86400000) / 3600000);
             const m = Math.floor((diff % 3600000) / 60000);
             const s = Math.floor((diff % 60000) / 1000);
+            
             document.getElementById("timer").innerHTML = d + "д " + h + "г " + m + "хв " + s + "с";
         }
         setInterval(updateTimer, 1000);
