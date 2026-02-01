@@ -1,36 +1,27 @@
 from flask import Flask, render_template
-import requests
 
 app = Flask(__name__)
 
 @app.route('/')
 def home():
-    next_race_date = "2026-03-01T15:00:00" # Час і дата першої гонки 2026
+    # Дата першої гонки для таймера
+    next_race_date = "2026-03-01T15:00:00"
 
-    # Дані про гонки (можеш додати більше, якщо хочеш)
+    # Дані розкладу гонок
     races = [
-        {"name": "Bahrain GP", "track": "Sakhir", "date": "1 березня", "status": "Tickets Available"},
-        {"name": "Saudi Arabian GP", "track": "Jeddah", "date": "8 березня", "status": "Coming Soon"},
-        {"name": "Australian GP", "track": "Albert Park", "date": "22 березня", "status": "Coming Soon"}
+        {"raceName": "Bahrain Grand Prix", "date": "2026-03-01", "Circuit": {"circuitName": "Sakhir"}},
+        {"raceName": "Saudi Arabian GP", "date": "2026-03-08", "Circuit": {"circuitName": "Jeddah"}},
+        {"raceName": "Australian Grand Prix", "date": "2026-03-22", "Circuit": {"circuitName": "Albert Park"}}
     ]
 
-    # Розширені дані про пілотів та команди 2026 з їхніми кольорами
+    # Дані пілотів
     drivers = [
-        {"pos": "1", "name": "Max Verstappen", "team": "Red Bull-Ford", "color": "#0600ef"},
-        {"pos": "2", "name": "Lewis Hamilton", "team": "Mercedes", "color": "#00d2be"}, # Змінив на Mercedes, бо 2026-02-01
-        {"pos": "3", "name": "Charles Leclerc", "team": "Ferrari", "color": "#ef1a2d"},
-        {"pos": "4", "name": "Lando Norris", "team": "McLaren", "color": "#ff8700"},
-        {"pos": "5", "name": "George Russell", "team": "Mercedes", "color": "#00d2be"} # Змінив на Mercedes, бо 2026-02-01
+        {"position": "1", "points": "0", "Driver": {"familyName": "Verstappen", "givenName": "Max"}, "Constructors": [{"name": "Red Bull"}]},
+        {"position": "2", "points": "0", "Driver": {"familyName": "Hamilton", "givenName": "Lewis"}, "Constructors": [{"name": "Ferrari"}]},
+        {"position": "3", "points": "0", "Driver": {"familyName": "Leclerc", "givenName": "Charles"}, "Constructors": [{"name": "Ferrari"}]}
     ]
 
-    # Технічні зміни 2026
-    tech_rules = [
-        {"title": "Двигуни", "desc": "Збільшення електричної потужності до 350 кВт та відмова від MGU-H."},
-        {"title": "Паливо", "desc": "Перехід на 100% екологічно чисте синтетичне пальне."},
-        {"title": "Аеродинаміка", "desc": "Активне аеро (рухомі крила) для зменшення лобового опору на прямих."}
-    ]
-
-    return render_template('index.html', races=races, drivers=drivers, next_race=next_race_date, rules=tech_rules)
+    return render_template('index.html', races=races, drivers=drivers, next_race=next_race_date)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
