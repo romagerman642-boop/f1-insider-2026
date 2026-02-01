@@ -36,12 +36,9 @@ def home():
 if __name__ == '__main__':
     app.run(debug=True)
 @app.route('/')
-def home():
-    # Просто додаємо цей рядок перед отриманням даних
-    next_race_date = "2026-03-01T15:00:00" 
-    
-    # Весь інший код (races, drivers), який там вже був, залишаємо як є!
-    # ...
-    
-    # І в останньому рядку додаємо next_race=next_race_date
+def home() 
+    next_race_date = "2026-03-01T15:00:00"    
+(races, drivers)
+   ...
+    next_race=next_race_date
     return render_template('index.html', races=races, drivers=drivers, next_race=next_race_date)
