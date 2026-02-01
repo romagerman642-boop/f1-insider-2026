@@ -2,266 +2,138 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <title>F1 Insider 2026 | Ultimate Edition</title>
+    <title>F1 Insider 2026 | 15-in-1 Edition</title>
     <style>
-        :root {
-            --f1-red: #e10600;
-            --dark-bg: #0d0d0d;
-            --card-bg: #1c1c1c;
-            --text-light: #f0f0f0;
-            --text-dark-grey: #888;
-            --accent-green: #00ffcc; /* Для очок */
-        }
+        :root { --f1-red: #e10600; --bg: #0b0b0b; --card: #1a1a1a; --text: #fff; }
+        .light-theme { --bg: #f0f0f0; --card: #fff; --text: #111; } /* Ідея №4: Теми */
 
-        body {
-            background-color: var(--dark-bg);
-            color: var(--text-light);
-            font-family: 'Segoe UI', Arial, sans-serif;
-            margin: 0;
-            overflow-x: hidden;
-            line-height: 1.6;
+        body { 
+            background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; 
+            margin: 0; transition: 0.5s; cursor: url('https://cdn-icons-png.flaticon.com/32/3012/3012496.png'), auto; /* Ідея №15: Мишка */
         }
-
-        /* Splash Screen */
-        #splash-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--dark-bg);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            opacity: 1;
-            transition: opacity 1s ease-out;
-            flex-direction: column;
-        }
-        #splash-screen.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-        .car-animation-container {
-            position: relative;
-            width: 100%;
-            height: 200px; /* Висота контейнера для анімації */
-            overflow: hidden;
-        }
-        .animated-car {
-            position: absolute;
-            height: 80px; /* Розмір боліда */
-            animation: driveAcross 3s ease-in-out forwards;
-        }
-        .animated-car:nth-child(1) { left: -200px; top: 20px; animation-delay: 0s; }
-        .animated-car:nth-child(2) { left: -250px; top: 60px; animation-delay: 0.5s; }
-        .animated-car:nth-child(3) { left: -300px; top: 100px; animation-delay: 1s; }
         
-        @keyframes driveAcross {
-            0% { transform: translateX(0) scale(1); opacity: 0; }
-            50% { opacity: 1; }
-            100% { transform: translateX(calc(100vw + 400px)) scale(1.2); opacity: 0; }
-        }
+        .container { max-width: 1100px; margin: auto; padding: 20px; text-align: center; }
 
-        /* Основний контент */
-        .content {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 1s ease-out, transform 1s ease-out;
-            padding: 20px;
+        /* Splash Screen (Ідея №11) */
+        #splash {
+            position: fixed; top: 0; width: 100%; height: 100%; background: #000;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 100;
         }
-        .content.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .car-anim { width: 100px; animation: move 2s infinite linear; }
+        @keyframes move { from { transform: translateX(-200%); } to { transform: translateX(200%); } }
 
-        .container {
-            max-width: 1000px;
-            margin: auto;
-            padding: 20px;
-            text-align: center;
-        }
+        /* Таймер (Ідея №10) */
+        #countdown-box { background: linear-gradient(90deg, var(--f1-red), #330000); padding: 30px; border-radius: 20px; margin: 20px 0; box-shadow: 0 0 20px rgba(225,6,0,0.5); }
+        #timer { font-size: 3em; font-weight: bold; font-family: monospace; }
 
-        /* Header */
-        header {
-            padding: 40px 0 20px 0;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
+        /* Кнопки */
+        .btn { 
+            background: #fff; color: #000; padding: 12px 30px; border-radius: 50px; 
+            text-decoration: none; font-weight: bold; display: inline-block; margin: 10px; transition: 0.3s;
         }
-        .header-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            filter: brightness(0.4) grayscale(0.2);
-            z-index: -1;
-            transition: background-image 1s ease-in-out;
-        }
-        h1 {
-            font-size: 4.5em;
-            color: var(--f1-red);
-            margin: 0;
-            letter-spacing: -2px;
-            text-shadow: 0 0 15px rgba(225,6,0,0.7);
-            line-height: 1em;
-        }
-        .sub-header {
-            color: var(--text-light);
-            font-size: 1.2em;
-            margin-top: 5px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .current-date-time {
-            font-size: 0.9em;
-            color: var(--text-dark-grey);
-            margin-top: 10px;
-        }
+        .btn:hover { transform: scale(1.1); background: var(--f1-red); color: #fff; }
 
-        /* Countdown Box */
-        #countdown-box {
-            background: linear-gradient(135deg, var(--f1-red) 0%, #000 100%);
-            padding: 30px;
-            border-radius: 20px;
-            margin: 30px auto;
-            box-shadow: 0 10px 30px rgba(225,6,0,0.3);
-            max-width: 600px;
-        }
-        #timer {
-            font-size: 3.5em;
-            font-weight: 900;
-            font-family: 'Consolas', monospace;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
-        }
-        #timer-label {
-            font-size: 1.1em;
-            color: var(--text-light);
-            opacity: 0.9;
-        }
+        /* Новини (Ідея №5) */
+        .news-ticker { background: #222; padding: 10px; overflow: hidden; white-space: nowrap; margin-bottom: 20px; }
+        .news-ticker span { display: inline-block; animation: ticker 20s linear infinite; color: var(--f1-red); font-weight: bold; }
+        @keyframes ticker { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
 
-        .buy-btn {
-            display: inline-block;
-            background: #ffffff;
-            color: var(--f1-red);
-            padding: 15px 40px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            margin-top: 25px;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 20px rgba(255, 255, 255, 0.1);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .buy-btn:hover {
-            background: var(--f1-red);
-            color: white;
-            transform: scale(1.05) translateY(-3px);
-            box-shadow: 0 8px 25px rgba(225,6,0,0.4);
-        }
+        /* Таблиці та Картки (Ідея №12) */
+        .grid { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+        .card { background: var(--card); padding: 20px; border-radius: 15px; border-bottom: 4px solid var(--f1-red); text-align: left; }
+        .team-strip { width: 5px; height: 15px; display: inline-block; margin-right: 8px; border-radius: 2px; }
 
-        /* Grid Layout */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-top: 40px;
-        }
+        /* Голосування (Ідея №3) */
+        .vote-btn { background: #333; color: #fff; border: 1px solid #555; padding: 5px 10px; cursor: pointer; border-radius: 5px; }
 
-        /* Card Styles */
-        .card {
-            background-color: var(--card-bg);
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            border-left: 5px solid var(--f1-red);
-            text-align: left;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-        }
-        .card h2 {
-            color: var(--f1-red);
-            margin-top: 0;
-            font-size: 1.8em;
-            border-bottom: 1px solid #333;
-            padding-bottom: 10px;
-        }
-        .card h3 {
-            color: var(--f1-red);
-            margin-top: 0;
-            font-size: 1.4em;
-            margin-bottom: 15px;
-        }
-        .card table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
-        .card th {
-            text-align: left;
-            color: var(--text-dark-grey);
-            font-size: 0.9em;
-            text-transform: uppercase;
-            padding: 10px 0;
-            border-bottom: 1px solid #444;
-        }
-        .card td {
-            padding: 15px 0;
-            border-bottom: 1px solid #2a2a2a;
-            vertical-align: middle;
-        }
-        .card td:last-child {
-            border-bottom: none; /* No border for the last item */
-        }
+        /* Звук (Ідея №13) */
+        #engine-sound { position: fixed; bottom: 20px; right: 20px; background: var(--f1-red); border: none; color: #fff; padding: 10px; border-radius: 50%; cursor: pointer; }
+    </style>
+</head>
+<body>
 
-        /* Team Strip for Drivers */
-        .team-strip {
-            width: 5px;
-            height: 25px;
-            display: inline-block;
-            vertical-align: middle;
-            margin-right: 12px;
-            border-radius: 2px;
-            box-shadow: 0 0 8px rgba(0,0,0,0.5);
-        }
-        .driver-info {
-            display: inline-block;
-            vertical-align: middle;
-        }
-        .driver-name {
-            font-weight: bold;
-            font-size: 1.1em;
-            color: var(--text-light);
-        }
-        .driver-team {
-            color: var(--text-dark-grey);
-            font-size: 0.85em;
-        }
-        .driver-pos {
-            font-weight: bold;
-            font-size: 1.2em;
-            color: var(--text-light);
-        }
+<div id="splash">
+    <img src="https://cdn-icons-png.flaticon.com/64/3012/3012496.png" class="car-anim">
+    <h2>ГОТУЄМО БОЛІДИ...</h2>
+</div>
 
-        /* Rules Section */
-        .rules-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        .rule-box {
-            background-color: #2a2a2a;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: left;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-            border-left: 3px solid var(--f1-
+<button id="engine-sound" onclick="playAudio()">🔊</button>
+
+<div class="container">
+    <header>
+        <button onclick="document.body.classList.toggle('light-theme')">🌓 Перемкнути режим</button>
+        <h1>F1 INSIDER 2026</h1>
+    </header>
+
+    <div class="news-ticker">
+        <span>⚡ НОВИНИ: {% for n in news %} • {{ n }} {% endfor %} • </span>
+    </div>
+
+    <div id="countdown-box">
+        <div id="timer">00:00:00:00</div>
+        <a href="https://www.formula1.com/en/racing/2026.html" class="btn" target="_blank">🎟️ КУПИТИ КВИТКИ</a>
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <h3>🏁 КАЛЕНДАР ТА ПОГОДА (Ідея №2)</h3>
+            <table width="100%">
+                {% for race in races %}
+                <tr>
+                    <td><b>{{ race.name }}</b><br><small>{{ race.track }}</small></td>
+                    <td>{{ race.date }}</td>
+                    <td style="color: #00ffcc;">{{ race.weather }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <div class="card">
+            <h3>🏆 ПІЛОТ ДНЯ (Ідея №3)</h3>
+            {% for d in drivers %}
+            <div style="margin-bottom: 10px;">
+                <span class="team-strip" style="background:{{ d.color }}"></span>
+                {{ d.name }} <button class="vote-btn" onclick="alert('Дякуємо за голос!')">👍</button>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="card" style="margin-top:20px;">
+        <h3>🛠️ ТЕХНІЧНИЙ СЛОВНИК 2026 (Ідея №7)</h3>
+        <div style="display: flex; gap: 15px;">
+            {% for rule in rules %}
+            <div style="flex: 1; background: #222; padding: 10px; border-radius: 10px;">
+                <h4 style="color:var(--f1-red); margin: 0;">{{ rule.title }}</h4>
+                <p style="font-size: 0.8em;">{{ rule.desc }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script>
+    // Splash screen
+    setTimeout(() => document.getElementById('splash').style.display = 'none', 2000);
+
+    // Timer
+    const raceDate = new Date("{{ next_race }}").getTime();
+    setInterval(() => {
+        const now = new Date().getTime();
+        const d = raceDate - now;
+        const days = Math.floor(d / 86400000);
+        const hours = Math.floor((d % 86400000) / 3600000);
+        const mins = Math.floor((d % 3600000) / 60000);
+        const secs = Math.floor((d % 60000) / 1000);
+        document.getElementById("timer").innerHTML = days + "д " + hours + "г " + mins + "хв " + secs + "с";
+    }, 1000);
+
+    // Audio (Ідея №13)
+    function playAudio() {
+        let audio = new Audio('https://www.soundjay.com/transportation/car-racing-1.mp3');
+        audio.play();
+    }
+</script>
+
+</body>
+</html>
