@@ -4,9 +4,10 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
+    # Дата першої гонки 2026
     next_race_date = "2026-03-01T15:00:00"
 
-    # ПОВНИЙ РОЗКЛАД СЕЗОНУ 2026 (усі основні етапи)
+    # ПОВНИЙ РОЗКЛАД НА 16 ЕТАПІВ
     races = [
         {"raceName": "Bahrain Grand Prix", "date": "2026-03-01", "Circuit": {"circuitName": "Sakhir"}},
         {"raceName": "Saudi Arabian GP", "date": "2026-03-08", "Circuit": {"circuitName": "Jeddah"}},
@@ -26,6 +27,7 @@ def home():
         {"raceName": "Italian Grand Prix", "date": "2026-09-06", "Circuit": {"circuitName": "Monza"}}
     ]
 
+    # Список пілотів (на старт 2026)
     drivers = [
         {"position": "1", "points": "0", "Driver": {"familyName": "Verstappen", "givenName": "Max"}, "Constructors": [{"name": "Red Bull"}]},
         {"position": "2", "points": "0", "Driver": {"familyName": "Hamilton", "givenName": "Lewis"}, "Constructors": [{"name": "Ferrari"}]},
