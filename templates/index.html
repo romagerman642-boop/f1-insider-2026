@@ -2,138 +2,69 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <title>F1 Insider 2026 | 15-in-1 Edition</title>
+    <title>F1 Insider 2026</title>
     <style>
-        :root { --f1-red: #e10600; --bg: #0b0b0b; --card: #1a1a1a; --text: #fff; }
-        .light-theme { --bg: #f0f0f0; --card: #fff; --text: #111; } /* Ідея №4: Теми */
-
-        body { 
-            background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; 
-            margin: 0; transition: 0.5s; cursor: url('https://cdn-icons-png.flaticon.com/32/3012/3012496.png'), auto; /* Ідея №15: Мишка */
-        }
+        body { background: #0b0b0b; color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; }
+        .container { max-width: 900px; margin: auto; padding: 20px; text-align: center; }
+        h1 { color: #e10600; font-size: 3em; margin-bottom: 10px; text-transform: uppercase; }
         
-        .container { max-width: 1100px; margin: auto; padding: 20px; text-align: center; }
-
-        /* Splash Screen (Ідея №11) */
-        #splash {
-            position: fixed; top: 0; width: 100%; height: 100%; background: #000;
-            display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 100;
+        #timer-wrap { 
+            background: linear-gradient(135deg, #e10600 0%, #330000 100%); 
+            padding: 30px; border-radius: 20px; margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(225, 6, 0, 0.3);
         }
-        .car-anim { width: 100px; animation: move 2s infinite linear; }
-        @keyframes move { from { transform: translateX(-200%); } to { transform: translateX(200%); } }
-
-        /* Таймер (Ідея №10) */
-        #countdown-box { background: linear-gradient(90deg, var(--f1-red), #330000); padding: 30px; border-radius: 20px; margin: 20px 0; box-shadow: 0 0 20px rgba(225,6,0,0.5); }
-        #timer { font-size: 3em; font-weight: bold; font-family: monospace; }
-
-        /* Кнопки */
-        .btn { 
-            background: #fff; color: #000; padding: 12px 30px; border-radius: 50px; 
-            text-decoration: none; font-weight: bold; display: inline-block; margin: 10px; transition: 0.3s;
-        }
-        .btn:hover { transform: scale(1.1); background: var(--f1-red); color: #fff; }
-
-        /* Новини (Ідея №5) */
-        .news-ticker { background: #222; padding: 10px; overflow: hidden; white-space: nowrap; margin-bottom: 20px; }
-        .news-ticker span { display: inline-block; animation: ticker 20s linear infinite; color: var(--f1-red); font-weight: bold; }
-        @keyframes ticker { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
-
-        /* Таблиці та Картки (Ідея №12) */
-        .grid { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
-        .card { background: var(--card); padding: 20px; border-radius: 15px; border-bottom: 4px solid var(--f1-red); text-align: left; }
-        .team-strip { width: 5px; height: 15px; display: inline-block; margin-right: 8px; border-radius: 2px; }
-
-        /* Голосування (Ідея №3) */
-        .vote-btn { background: #333; color: #fff; border: 1px solid #555; padding: 5px 10px; cursor: pointer; border-radius: 5px; }
-
-        /* Звук (Ідея №13) */
-        #engine-sound { position: fixed; bottom: 20px; right: 20px; background: var(--f1-red); border: none; color: #fff; padding: 10px; border-radius: 50%; cursor: pointer; }
+        #timer { font-size: 2.5em; font-weight: bold; letter-spacing: 2px; }
+        
+        .card { background: #1a1a1a; border-radius: 15px; padding: 25px; margin-bottom: 30px; border-top: 4px solid #e10600; }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th { color: #e10600; text-transform: uppercase; font-size: 0.8em; padding: 15px 10px; border-bottom: 2px solid #333; }
+        td { padding: 15px 10px; border-bottom: 1px solid #222; }
+        tr:hover { background: #222; }
+        .date { color: #888; font-family: monospace; }
     </style>
 </head>
 <body>
-
-<div id="splash">
-    <img src="https://cdn-icons-png.flaticon.com/64/3012/3012496.png" class="car-anim">
-    <h2>ГОТУЄМО БОЛІДИ...</h2>
-</div>
-
-<button id="engine-sound" onclick="playAudio()">🔊</button>
-
-<div class="container">
-    <header>
-        <button onclick="document.body.classList.toggle('light-theme')">🌓 Перемкнути режим</button>
+    <div class="container">
         <h1>F1 INSIDER 2026</h1>
-    </header>
+        <p style="color:#666">ОФІЦІЙНИЙ РОЗКЛАД ТА ЗАЛІК СЕЗОНУ</p>
 
-    <div class="news-ticker">
-        <span>⚡ НОВИНИ: {% for n in news %} • {{ n }} {% endfor %} • </span>
-    </div>
+        <div id="timer-wrap">
+            <div style="margin-bottom:10px; opacity:0.8">ДО СТАРТУ ГРАН-ПРІ БАХРЕЙНУ:</div>
+            <div id="timer">00д 00г 00хв 00с</div>
+        </div>
 
-    <div id="countdown-box">
-        <div id="timer">00:00:00:00</div>
-        <a href="https://www.formula1.com/en/racing/2026.html" class="btn" target="_blank">🎟️ КУПИТИ КВИТКИ</a>
-    </div>
-
-    <div class="grid">
         <div class="card">
-            <h3>🏁 КАЛЕНДАР ТА ПОГОДА (Ідея №2)</h3>
-            <table width="100%">
-                {% for race in races %}
-                <tr>
-                    <td><b>{{ race.name }}</b><br><small>{{ race.track }}</small></td>
-                    <td>{{ race.date }}</td>
-                    <td style="color: #00ffcc;">{{ race.weather }}</td>
-                </tr>
-                {% endfor %}
+            <h2 style="text-align:left; margin-top:0">🏁 Повний календар гонок</h2>
+            <table>
+                <thead>
+                    <tr><th>Гонка</th><th>Траса</th><th>Дата</th></tr>
+                </thead>
+                <tbody>
+                    {% for race in races %}
+                    <tr>
+                        <td><b>{{ race.raceName }}</b></td>
+                        <td>{{ race.Circuit.circuitName }}</td>
+                        <td class="date">{{ race.date }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
             </table>
         </div>
-
-        <div class="card">
-            <h3>🏆 ПІЛОТ ДНЯ (Ідея №3)</h3>
-            {% for d in drivers %}
-            <div style="margin-bottom: 10px;">
-                <span class="team-strip" style="background:{{ d.color }}"></span>
-                {{ d.name }} <button class="vote-btn" onclick="alert('Дякуємо за голос!')">👍</button>
-            </div>
-            {% endfor %}
-        </div>
     </div>
 
-    <div class="card" style="margin-top:20px;">
-        <h3>🛠️ ТЕХНІЧНИЙ СЛОВНИК 2026 (Ідея №7)</h3>
-        <div style="display: flex; gap: 15px;">
-            {% for rule in rules %}
-            <div style="flex: 1; background: #222; padding: 10px; border-radius: 10px;">
-                <h4 style="color:var(--f1-red); margin: 0;">{{ rule.title }}</h4>
-                <p style="font-size: 0.8em;">{{ rule.desc }}</p>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-</div>
-
-<script>
-    // Splash screen
-    setTimeout(() => document.getElementById('splash').style.display = 'none', 2000);
-
-    // Timer
-    const raceDate = new Date("{{ next_race }}").getTime();
-    setInterval(() => {
-        const now = new Date().getTime();
-        const d = raceDate - now;
-        const days = Math.floor(d / 86400000);
-        const hours = Math.floor((d % 86400000) / 3600000);
-        const mins = Math.floor((d % 3600000) / 60000);
-        const secs = Math.floor((d % 60000) / 1000);
-        document.getElementById("timer").innerHTML = days + "д " + hours + "г " + mins + "хв " + secs + "с";
-    }, 1000);
-
-    // Audio (Ідея №13)
-    function playAudio() {
-        let audio = new Audio('https://www.soundjay.com/transportation/car-racing-1.mp3');
-        audio.play();
-    }
-</script>
-
+    <script>
+        const raceDate = new Date("{{ next_race }}").getTime();
+        function updateTimer() {
+            const now = new Date().getTime();
+            const diff = raceDate - now;
+            const d = Math.floor(diff / 86400000);
+            const h = Math.floor((diff % 86400000) / 3600000);
+            const m = Math.floor((diff % 3600000) / 60000);
+            const s = Math.floor((diff % 60000) / 1000);
+            document.getElementById("timer").innerHTML = d + "д " + h + "г " + m + "хв " + s + "с";
+        }
+        setInterval(updateTimer, 1000);
+        updateTimer();
+    </script>
 </body>
 </html>
