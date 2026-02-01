@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>F1 Insider 2026 | Твій гід у світі гонок</title>
+    <style>
+        :root {
+            --f1-red: #e10600;
+            --f1-black: #0b0b0e;
+            --neon-blue: #00f2ff;
+        }
+
+        body { font-family: 'Segoe UI', sans-serif; background: var(--f1-black); color: white; margin: 0; }
+
+        /* Покращений блок з твоєю картинкою */
+        .hero { 
+            background: linear-gradient(rgba(0,0,0,0.4), var(--f1-black)), url('/static/f1_2026.jpg');
+            background-size: cover; background-position: center;
+            height: 400px; display: flex; flex-direction: column; 
+            justify-content: center; align-items: center; text-align: center;
+            border-bottom: 3px solid var(--f1-red);
+        }
+
+        .hero h1 { font-size: 4rem; color: white; text-transform: uppercase; margin: 0; font-style: italic; font-weight: 900; letter-spacing: -2px; }
+        .hero p { font-size: 1.2rem; color: var(--f1-red); font-weight: bold; letter-spacing: 3px; }
+
+        .container { max-width: 950px; margin: -40px auto 50px; padding: 0 20px; }
+
+        /* Картки гонок */
+        .race-card { 
+            background: rgba(30, 30, 35, 0.9); border-radius: 12px; padding: 20px; margin-bottom: 15px;
+            display: flex; justify-content: space-between; align-items: center;
+            border: 1px solid #2d2d35; transition: 0.3s;
+            backdrop-filter: blur(5px);
+        }
+
+        .race-card:hover { 
+            border-color: var(--f1-red); 
+            transform: scale(1.02); 
+            box-shadow: 0 0 25px rgba(225, 6, 0, 0.2); 
+        }
+
+        .race-name { font-size: 1.4rem; font-weight: bold; }
+        .circuit { color: #888; font-size: 0.9rem; margin-top: 4px; }
+
+        /* Кнопка квитків */
+        .ticket-btn {
+            background: transparent;
+            color: white;
+            border: 1px solid white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            transition: 0.3s;
+        }
+
+        .ticket-btn:hover {
+            background: white;
+            color: black;
+        }
+
+        .date-badge { color: var(--f1-red); font-weight: 900; font-size: 1.1rem; margin-right: 20px; }
+        
+        .action-area { display: flex; align-items: center; }
+    </style>
+</head>
+<body>
+
+    <div class="hero">
+        <h1>F1 INSIDER</h1>
+        <p>SEASON 2026 • NEW REGULATION</p>
+    </div>
+
+    <div class="container">
+        {% for race in races %}
+        <div class="race-card">
+            <div class="info">
+                <div class="race-name">{{ race.raceName }}</div>
+                <div class="circuit">📍 {{ race.Circuit.circuitName }}</div>
+            </div>
+            <div class="action-area">
+                <div class="date-badge">{{ race.date }}</div>
+                <a href="https://www.formula1.com/en/racing/2026.html" target="_blank" class="ticket-btn">Tickets</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</body>
+</html>
