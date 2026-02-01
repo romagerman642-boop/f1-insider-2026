@@ -6,96 +6,88 @@
     <title>F1 Insider 2026 | official</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #000; color: white; font-family: 'Segoe UI', sans-serif; overflow-x: hidden; }
+        body { background: #000; color: white; font-family: 'Segoe UI', sans-serif; overflow-x: hidden; transition: background 1s ease-in-out; }
 
-        /* ВІДЕО ФОН - ПЕРЕВІРЕНЕ ПОСИЛАННЯ */
-        .video-bg-container {
+        /* ФОНОВА КАРТИНКА (міняється кожні 15 хв) */
+        .bg-image {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -2; overflow: hidden; background: #000;
+            z-index: -2; background-size: cover; background-position: center;
+            filter: brightness(0.3) blur(3px); transition: background-image 1.5s ease-in-out;
         }
 
-        #bg-video {
-            position: absolute; top: 50%; left: 50%;
-            min-width: 100%; min-height: 100%;
-            width: auto; height: auto;
-            transform: translate(-50%, -50%);
-            filter: blur(5px) brightness(0.4);
-            object-fit: cover;
-        }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: -1; }
 
-        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.2); z-index: -1; }
+        .container { max-width: 1000px; margin: auto; padding: 30px 15px; text-align: center; }
 
-        .container { max-width: 1000px; margin: auto; padding: 30px 15px; text-align: center; position: relative; }
-
-        h1 { font-size: clamp(2rem, 8vw, 3.5rem); letter-spacing: 5px; color: #e10600; text-transform: uppercase; margin-bottom: 5px; }
+        h1 { font-size: clamp(2.5rem, 8vw, 4rem); letter-spacing: 5px; color: #e10600; text-transform: uppercase; margin-bottom: 5px; font-weight: 900; }
 
         /* ТАЙМЕР */
         #timer-wrap {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 30px; border-radius: 25px; margin: 30px 0;
+            padding: 40px; border-radius: 30px; margin: 30px 0;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
         }
-        #timer { font-size: clamp(1.2rem, 5vw, 2.8rem); font-weight: bold; font-family: monospace; letter-spacing: 2px; }
+        #timer { font-size: clamp(1.5rem, 6vw, 3.5rem); font-weight: bold; font-family: 'Courier New', monospace; color: #fff; }
 
-        /* БОЛІД */
-        #car-container { height: 100px; margin: 20px 0; position: relative; overflow: visible; }
-        #f1-car { height: 70px; position: absolute; left: -1000px; transition: left 2s ease-out; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5)); }
+        /* ЦЕНТРАЛЬНИЙ БОЛІД (міняється) */
+        #car-display { height: 150px; margin: 20px 0; display: flex; justify-content: center; align-items: center; }
+        #f1-car-img { height: 100px; transition: all 1s ease-in-out; filter: drop-shadow(0 0 20px rgba(225,6,0,0.4)); }
 
         /* ТАБЛИЦЯ */
         .card { 
-            background: rgba(15, 15, 15, 0.85); backdrop-filter: blur(20px);
-            border-radius: 20px; padding: 25px; border: 1px solid rgba(225, 6, 0, 0.3); text-align: left;
+            background: rgba(15, 15, 15, 0.85); backdrop-filter: blur(25px);
+            border-radius: 25px; padding: 30px; border: 1px solid rgba(255, 255, 255, 0.1); text-align: left;
         }
 
         table { width: 100%; border-collapse: collapse; }
-        th { color: #e10600; padding: 12px; border-bottom: 2px solid #333; text-transform: uppercase; font-size: 0.8rem; }
-        td { padding: 12px; border-bottom: 1px solid #222; font-size: 0.9rem; }
+        th { color: #e10600; padding: 15px; border-bottom: 2px solid #333; text-transform: uppercase; font-size: 0.8rem; }
+        td { padding: 15px; border-bottom: 1px solid #222; font-size: 0.95rem; }
 
         .btn-tickets {
             background: #e10600; color: white; text-decoration: none;
-            padding: 8px 12px; border-radius: 4px; font-weight: bold; font-size: 0.7rem; text-transform: uppercase;
+            padding: 10px 20px; border-radius: 5px; font-weight: bold; font-size: 0.75rem;
+            text-transform: uppercase; transition: 0.3s; display: inline-block;
         }
+        .btn-tickets:hover { background: white; color: #e10600; box-shadow: 0 0 15px white; }
+
     </style>
 </head>
 <body>
 
-    <div class="video-bg-container">
-        <video autoplay muted loop playsinline id="bg-video">
-            <source src="https://v.ftcdn.net/04/03/40/34/700_F_403403408_0ZzHh9tJvR8I9Yp6yXGf9HhHkPqXmR5k_ST.mp4" type="video/mp4">
-        </video>
-    </div>
+    <div id="bg-layer" class="bg-image"></div>
     <div class="overlay"></div>
 
     <div class="container">
-        <h1>F1 INSIDER</h1>
-        <p style="opacity: 0.6; letter-spacing: 2px;">SEASON 2026 OFFICIAL CALENDAR</p>
+        <h1 id="team-name">F1 INSIDER</h1>
+        <p style="opacity: 0.6; letter-spacing: 3px;">SEASON 2026 WORLD CHAMPIONSHIP</p>
 
         <div id="timer-wrap">
-            <p style="margin-bottom: 10px; font-weight: bold; color: #e10600;">COUNTDOWN TO BAHRAIN GP:</p>
+            <p style="margin-bottom: 15px; font-weight: bold; color: #e10600; letter-spacing: 1px;">ДО СТАРТУ СЕЗОНУ В БАХРЕЙНІ:</p>
             <div id="timer">00d 00h 00m 00s</div>
         </div>
 
-        <div id="car-container">
-            <img id="f1-car" src="" alt="F1 Car">
+        <div id="car-display">
+            <img id="f1-car-img" src="" alt="F1 Car">
         </div>
 
         <div class="card">
-            <h2>🏁 Розклад та Квитки</h2>
+            <h2 style="margin-bottom: 20px;">🏁 Розклад та Квитки</h2>
             <table>
                 <thead>
                     <tr>
                         <th>Гонка</th>
-                        <th>Дата</th>
-                        <th>Дія</th>
+                        <th>Траса</th>
+                        <th>Квитки</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for race in races %}
                     <tr>
                         <td><b>{{ race.raceName }}</b></td>
-                        <td style="color:#aaa">{{ race.date }}</td>
+                        <td style="color:#aaa">{{ race.Circuit.circuitName }}</td>
                         <td><a href="{{ race.tickets }}" target="_blank" class="btn-tickets">Tickets</a></td>
                     </tr>
                     {% endfor %}
@@ -105,28 +97,37 @@
     </div>
 
     <script>
-        // СПИСОК БОЛІДІВ
-        const cars = [
-            'https://www.formula1.com/content/dam/fom-website/manual/Misc/2024-Master/Car-Launch/Red-Bull/RB20-Static.png',
-            'https://www.formula1.com/content/dam/fom-website/manual/Misc/2024-Master/Car-Launch/Ferrari/SF-24-Static.png',
-            'https://www.formula1.com/content/dam/fom-website/manual/Misc/2024-Master/Car-Launch/Mercedes/W15-Static.png'
+        // ДАНІ КОМАНД (Болід + Фон)
+        const teamThemes = [
+            {
+                car: 'https://media.formula1.com/d_whatsapp_fallback_image.png/content/dam/fom-website/manual/Misc/2024-Master/Car-Launch/Red-Bull/RB20-Static.png',
+                bg: 'https://images.unsplash.com/photo-1532906630210-ade11930c11c?q=80&w=2000&auto=format&fit=crop'
+            },
+            {
+                car: 'https://media.formula1.com/d_whatsapp_fallback_image.png/content/dam/fom-website/manual/Misc/2024-Master/Car-Launch/Ferrari/SF-24-Static.png',
+                bg: 'https://images.unsplash.com/photo-1570125909232-eb263c188f7e?q=80&w=2071&auto=format&fit=crop'
+            },
+            {
+                car: 'https://media.formula1.com/d_whatsapp_fallback_image.png/content/dam/fom-website/manual/Misc/2024-Master/Car-Launch/Mercedes/W15-Static.png',
+                bg: 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?q=80&w=2070&auto=format&fit=crop'
+            }
         ];
 
-        window.onload = function() {
-            const carImg = document.getElementById('f1-car');
-            carImg.src = cars[Math.floor(Math.random() * cars.length)];
-            setTimeout(() => { 
-                carImg.style.left = "50%"; 
-                carImg.style.transform = "translateX(-50%)";
-            }, 800);
-            
-            // ПЕРЕВІРКА ВІДЕО: якщо не запустилося само - пробуємо ще раз
-            const video = document.getElementById('bg-video');
-            video.play().catch(() => {
-                console.log("Автозапуск заблоковано браузером, очікування кліку.");
-            });
-        };
+        function updateTheme() {
+            // Вибираємо тему на основі поточного часу (міняється кожні 15 хв)
+            const minutes = new Date().getMinutes();
+            const index = Math.floor(minutes / 20) % teamThemes.length; 
+            const theme = teamThemes[index];
 
+            document.getElementById('bg-layer').style.backgroundImage = `url('${theme.bg}')`;
+            document.getElementById('f1-car-img').src = theme.car;
+        }
+
+        // Оновлюємо тему при завантаженні та кожну хвилину для перевірки
+        updateTheme();
+        setInterval(updateTheme, 60000);
+
+        // ТАЙМЕР
         const raceDate = new Date("{{ next_race }}").getTime();
         setInterval(() => {
             const now = new Date().getTime();
@@ -135,7 +136,7 @@
             const hours = Math.floor((d % 86400000) / 3600000);
             const mins = Math.floor((d % 3600000) / 60000);
             const secs = Math.floor((d % 60000) / 1000);
-            document.getElementById("timer").innerHTML = `${days}d ${hours}h ${mins}m ${secs}s`;
+            document.getElementById("timer").innerHTML = `${days}д ${hours}г ${mins}хв ${secs}с`;
         }, 1000);
     </script>
 </body>
