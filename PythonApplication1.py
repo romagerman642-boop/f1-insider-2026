@@ -11,9 +11,8 @@ def get_data(url, backup_data):
         return backup_data
 
 @app.route('/')
-def home():
-    # Дата першої гонки для таймера
-    next_race_date = "2026-03-01T15:00:00"
+def
+next_race_date = "2026-03-01T15:00:00"
 
     # Отримуємо розклад гонок
     race_data = get_data('https://ergast.com/api/f1/2026.json', {})
