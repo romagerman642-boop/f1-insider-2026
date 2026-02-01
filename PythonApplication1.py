@@ -12,7 +12,10 @@ def get_data(url, backup_data):
 
 @app.route('/')
 def home():
-    # Отримуємо розклад
+    # Дата першої гонки для таймера
+    next_race_date = "2026-03-01T15:00:00"
+
+    # Отримуємо розклад гонок
     race_data = get_data('https://ergast.com/api/f1/2026.json', {})
     races = race_data.get('MRData', {}).get('RaceTable', {}).get('Races', [
         {"raceName": "Bahrain Grand Prix", "date": "2026-03-01", "Circuit": {"circuitName": "Sakhir"}},
@@ -20,7 +23,7 @@ def home():
         {"raceName": "Australian Grand Prix", "date": "2026-03-22", "Circuit": {"circuitName": "Albert Park"}}
     ])
 
-    # Отримуємо пілотів
+    # Отримуємо таблицю пілотів
     standings_data = get_data('https://ergast.com/api/f1/2026/driverStandings.json', {})
     try:
         drivers = standings_data['MRData']['StandingsTable']['StandingsLists'][0]['DriverStandings']
@@ -31,14 +34,7 @@ def home():
             {"position": "3", "points": "0", "Driver": {"familyName": "Leclerc", "givenName": "Charles"}, "Constructors": [{"name": "Ferrari"}]}
         ]
 
-    return render_template('index.html', races=races, drivers=drivers)
+    return render_template('index.html', races=races, drivers=drivers, next_race=next_race_date)
 
 if __name__ == '__main__':
     app.run(debug=True)
-@app.route('/')
-def home() 
-    next_race_date = "2026-03-01T15:00:00"    
-(races, drivers)
-   ...
-    next_race=next_race_date
-    return render_template('index.html', races=races, drivers=drivers, next_race=next_race_date)
